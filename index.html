@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CI/CD Pipeline Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>🚀 CI/CD Pipeline Demo</h1>
+    <p>Automated using Jenkins, Docker, GitHub & Docker Hub</p>
+</header>
+
+<section class="info">
+    <h2>Pipeline Status</h2>
+    <div id="status" class="status pending">Checking...</div>
+    <button onclick="deploy()">Simulate Deployment</button>
+</section>
+
+<section class="steps">
+    <h2>Pipeline Flow</h2>
+    <ul>
+        <li>📌 Code pushed to GitHub</li>
+        <li>⚙️ Jenkins build triggered</li>
+        <li>🐳 Docker image built</li>
+        <li>📦 Image pushed to Docker Hub</li>
+        <li>🚀 Container deployed automatically</li>
+    </ul>
+</section>
+
+<footer>
+    <p>Built by DevOps Engineer | CI/CD Automation Project</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
