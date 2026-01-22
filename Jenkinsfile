@@ -45,3 +45,34 @@ pipeline {
         }
     }
 }
+post {
+    success {
+        mail to: '4king2will@gmail.com',
+             subject: "✅ SUCCESS: CI/CD Pipeline - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+             body: """
+SUCCESS 🎉
+
+Job: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
+Status: SUCCESS
+
+Check Jenkins:
+${env.BUILD_URL}
+"""
+    }
+
+    failure {
+        mail to: '4king2will@gmail.com',
+             subject: "❌ FAILED: CI/CD Pipeline - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+             body: """
+FAILED ❌
+
+Job: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
+Status: FAILED
+
+Check logs immediately:
+${env.BUILD_URL}
+"""
+    }
+}
