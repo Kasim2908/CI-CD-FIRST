@@ -48,7 +48,7 @@ pipeline {
         }
     }
 
-    post {
+   /* post {
         success {
             script {
                 emailext(
@@ -63,7 +63,7 @@ pipeline {
                     mimeType: 'text/html'
                 )
             }
-        }
+        }*/
 
         failure {
             script {
