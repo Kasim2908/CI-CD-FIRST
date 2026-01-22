@@ -7,11 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/Kasim2908/CI-CD-FIRST.git'
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
@@ -42,6 +37,12 @@ pipeline {
                 docker run -d -p 8081:80 --name $CONTAINER_NAME $IMAGE_NAME
                 '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ CI/CD Pipeline executed successfully"
         }
     }
 }
