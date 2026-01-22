@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "yourdockerhubusername/cicd-demo"
+        IMAGE_NAME = "mohammadkasim/cicd-demo"
         CONTAINER_NAME = "cicd-demo-app"
     }
 
