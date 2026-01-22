@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "mohammadkasim/cicd-demo"
+        IMAGE_NAME = "yourdockerhubusername/cicd-demo"
         CONTAINER_NAME = "cicd-demo-app"
     }
 
@@ -22,19 +22,19 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
-        stage('Push Image to Docker Hub') {
+        stage('Push Image') {
             steps {
                 sh 'docker push $IMAGE_NAME'
             }
         }
 
-        stage('Deploy on Port 8081') {
+        stage('Run Container') {
             steps {
                 sh '''
                 docker stop $CONTAINER_NAME || true
@@ -42,12 +42,6 @@ pipeline {
                 docker run -d -p 8081:80 --name $CONTAINER_NAME $IMAGE_NAME
                 '''
             }
-        }
-    }
-
-    post {
-        success {
-            echo "✅ CI/CD Pipeline completed successfully"
         }
     }
 }
