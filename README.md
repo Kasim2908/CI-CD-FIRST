@@ -1,57 +1,78 @@
-🚀 Jenkins CI/CD Pipeline with Docker & GitHub
-(Including Email Notification Debug Notes)
-📌 Project Overview
+# 🚀 Jenkins CI/CD Pipeline with Docker & GitHub  
+### (Including Email Notification Debug Notes)
 
-This repository demonstrates a complete CI/CD pipeline using Jenkins, Docker, GitHub, and Docker Hub, deployed on an AWS EC2 (Ubuntu) instance.
+---
+
+## 📌 Project Overview
+
+This repository demonstrates a complete **CI/CD pipeline** using:
+
+- 🧩 Jenkins (running in Docker)
+- 🐳 Docker
+- 📦 Docker Hub
+- 🐙 GitHub
+- ☁️ AWS EC2 (Ubuntu)
 
 The pipeline automatically:
 
-Triggers on GitHub push
+- ✅ Triggers on GitHub push  
+- ✅ Builds a Docker image  
+- ✅ Pushes the image to Docker Hub  
+- ✅ Deploys the container on EC2  
+- ❌ Attempts to send email notifications (currently under debugging)
 
-Builds a Docker image
+> 🎯 Core CI/CD pipeline works perfectly.  
+> 📩 Email notification from pipeline is under investigation.
 
-Pushes the image to Docker Hub
+---
 
-Deploys the container on EC2
+## 🛠 Tech Stack
 
-(Attempts) to send email notifications on build success/failure
+| Category        | Tool |
+|----------------|------|
+| CI/CD          | Jenkins (Docker container) |
+| Source Control | GitHub |
+| Containers     | Docker |
+| Registry       | Docker Hub |
+| Cloud          | AWS EC2 (Ubuntu) |
+| Notifications  | Jenkins Email Extension Plugin |
 
-✅ Core CI/CD pipeline works perfectly
-❌ Email notification via pipeline does not trigger (manual test mail works)
+---
 
-🛠️ Tech Stack
-Category	Tool
-CI/CD	Jenkins (Docker container)
-SCM	GitHub
-Containers	Docker
-Registry	Docker Hub
-Cloud	AWS EC2 (Ubuntu)
-Notifications	Jenkins Email Extension Plugin
-📂 Repository Structure
+## 📂 Repository Structure
+
 .
-├── Dockerfile
-├── Jenkinsfile
-├── index.html
-└── README.md
+├── Dockerfile # Builds the Docker image for the application
+│
+├── Jenkinsfile # Defines the complete CI/CD pipeline stages
+│
+├── index.html # Simple demo web application
+│
+└── README.md # Project documentation and debugging notes
 
-🔁 CI/CD Workflow
-GitHub Push
-   ↓
-Jenkins Webhook Trigger
-   ↓
-Checkout Source Code
-   ↓
-Docker Login
-   ↓
-Docker Build
-   ↓
-Docker Push
-   ↓
-Run Container on EC2
-   ↓
-(Attempted) Email Notification
 
-📜 Jenkinsfile (Current)
+
+
+
+---
+
+## 🔁 CI/CD Workflow
+
+1. 📤 GitHub Push  
+2. 🔔 Jenkins Webhook Trigger  
+3. 📥 Checkout Source Code  
+4. 🔐 Docker Login  
+5. 🏗 Build Docker Image  
+6. 📦 Push Image to Docker Hub  
+7. 🚀 Deploy Container on EC2  
+8. 📩 Email Notification (Attempted)
+
+
+---
+
+## 📜 Jenkinsfile (Pipeline Configuration)
+
+```groovy
 pipeline {
     agent any
 
@@ -117,7 +138,7 @@ pipeline {
                 <p><b>Build:</b> #${env.BUILD_NUMBER}</p>
                 <p><b>URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                 """,
-                to: "4king2will@gmail.com"
+                to: "your-email@example.com"
             )
         }
 
@@ -130,100 +151,8 @@ pipeline {
                 <p><b>Build:</b> #${env.BUILD_NUMBER}</p>
                 <p><b>Logs:</b> <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>
                 """,
-                to: "4king2will@gmail.com"
+                to: "your-email@example.com"
             )
         }
     }
 }
-
-✅ What Works Successfully
-
-✅ GitHub webhook triggers Jenkins automatically
-
-✅ Pipeline starts on every push
-
-✅ Docker login via Jenkins credentials works
-
-✅ Docker image builds successfully
-
-✅ Image pushes to Docker Hub
-
-✅ Container runs on EC2 (http://<EC2-IP>:8081)
-
-✅ Jenkins Test Email works from system configuration
-
-❌ Known Issue: Email Notification from Pipeline
-🔴 Problem Description
-
-Although Jenkins email configuration is correct and test emails are received, emails are NOT sent when the pipeline completes (success or failure).
-
-🔍 Observed Behavior
-Action	Result
-Jenkins test email	✅ Received
-Pipeline success email	❌ Not received
-Pipeline failure email	❌ Not received
-Console error	❌ No visible error
-🧠 Suspected Root Causes
-
-This issue likely relates to one or more of the following:
-
-Email Extension Plugin context issue
-
-Plugin works globally but not inside post {} block
-
-Jenkins running inside Docker
-
-Possible isolation between Jenkins runtime and SMTP execution
-
-Script Security / Sandbox
-
-emailext step may require additional approval
-
-Recipient configuration
-
-May require recipientProviders instead of static to
-
-Silent failure in post block
-
-No error logged even though email not sent
-
-🔍 Debugging Already Done
-
-✔ SMTP configured correctly (Gmail App Password)
-
-✔ Email Extension Plugin installed
-
-✔ Test mail works consistently
-
-✔ Jenkinsfile syntax validated
-
-✔ Declarative pipeline (not scripted)
-
-✔ No Groovy or runtime errors in console
-
-🆘 Help Needed
-
-Looking for help from an experienced DevOps engineer to:
-
-Identify why emailext does not trigger in post block
-
-Suggest correct configuration for email notifications
-
-Confirm if this is a known Jenkins-Docker limitation
-
-Recommend a better notification approach if required
-
-📌 Notes
-
-Jenkins runs inside Docker
-
-Docker socket mounted: /var/run/docker.sock
-
-Jenkins home persisted via volume
-
-EC2 security groups configured correctly
-
-✨ Final Status
-
-✅ CI/CD pipeline fully functional
-❌ Email automation pending fix
