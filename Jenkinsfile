@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "mohammadkasim/cicd-demo"
+        IMAGE_NAME     = "mohammadkasim/cicd-demo"
         CONTAINER_NAME = "cicd-demo-app"
     }
 
@@ -32,13 +32,7 @@ pipeline {
 
         stage('Build Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
-            }
-        }
-
-        stage('Push Image') {
-            steps {
-                sh 'docker push $IMAGE_NAME'
+                sh "docker build -t $IMAGE_NAME ."
             }
         }
 
@@ -54,34 +48,47 @@ pipeline {
     }
 
     post {
-    success {
-        script {
-            try {
-                mail to: '4king2will0@gmail.com',
-                     subject: "✅ Jenkins Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                     body: "Build Successful! Job: ${env.JOB_NAME}, Build: #${env.BUILD_NUMBER}, URL: ${env.BUILD_URL}"
-                echo "Success email sent successfully"
-            } catch (Exception e) {
-                echo "Failed to send success email: ${e.getMessage()}"
+
+        success {
+            script {
+                try {
+                    mail to: '4king2will0@gmail.com',
+                         subject: "✅ Jenkins SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: """
+Build SUCCESS 🎉
+
+Job: ${env.JOB_NAME}
+Build: #${env.BUILD_NUMBER}
+URL: ${env.BUILD_URL}
+"""
+                    echo "✅ Success email triggered"
+                } catch (e) {
+                    echo "⚠️ Success email failed: ${e.getMessage()}"
+                }
             }
         }
-    }
 
         failure {
-        script {
-            try {
-                mail to: 'bobmarley.farzi@gmail.com',
-                     subject: "❌ Jenkins Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                     body: "Build Failed! Job: ${env.JOB_NAME}, Build: #${env.BUILD_NUMBER}, Logs: ${env.BUILD_URL}console"
-                echo "Failure email sent successfully"
-            } catch (Exception e) {
-                echo "Failed to send failure email: ${e.getMessage()}"
+            script {
+                try {
+                    mail to: '4king2will0@gmail.com',
+                         subject: "❌ Jenkins FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                         body: """
+Build FAILED ❌
+
+Job: ${env.JOB_NAME}
+Build: #${env.BUILD_NUMBER}
+Logs: ${env.BUILD_URL}console
+"""
+                    echo "❌ Failure email triggered"
+                } catch (e) {
+                    echo "⚠️ Failure email failed: ${e.getMessage()}"
+                }
             }
         }
-    }
 
-    always {
-        echo "Pipeline execution completed"
+        always {
+            echo "📦 Pipeline execution completed"
+        }
     }
- }
 }
