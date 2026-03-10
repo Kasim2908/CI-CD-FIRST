@@ -34,16 +34,16 @@ This repository showcases a fully automated **CI/CD pipeline** that builds, test
 
 ```mermaid
 flowchart TB
-    subgraph Developer["👨‍💻 Developer"]
+    subgraph Developer[" Developer "]
         A[Code Changes]
     end
     
-    subgraph GitHub["🐙 GitHub"]
+    subgraph GitHub[" GitHub "]
         B[Repository]
         C[Webhook]
     end
     
-    subgraph Jenkins["🔧 Jenkins Server"]
+    subgraph Jenkins[" Jenkins Server "]
         D[Pipeline Trigger]
         E[Checkout Code]
         F[Build Docker Image]
@@ -51,11 +51,11 @@ flowchart TB
         H[Deploy Container]
     end
     
-    subgraph DockerHub["📦 Docker Hub"]
+    subgraph DockerHub[" Docker Hub "]
         I[Image Registry]
     end
     
-    subgraph AWS["☁️ AWS EC2"]
+    subgraph AWS[" AWS EC2 "]
         J[Nginx Container]
         K[Web Application]
     end
@@ -70,6 +70,18 @@ flowchart TB
     I -->|pull| H
     H --> J
     J --> K
+
+    style A fill:#e1f5fe,stroke:#01579b,color:#000000
+    style B fill:#e8f5e9,stroke:#2e7d32,color:#000000
+    style C fill:#e8f5e9,stroke:#2e7d32,color:#000000
+    style D fill:#fff3e0,stroke:#e65100,color:#000000
+    style E fill:#fff3e0,stroke:#e65100,color:#000000
+    style F fill:#fff3e0,stroke:#e65100,color:#000000
+    style G fill:#fff3e0,stroke:#e65100,color:#000000
+    style H fill:#fff3e0,stroke:#e65100,color:#000000
+    style I fill:#e3f2fd,stroke:#1565c0,color:#000000
+    style J fill:#fce4ec,stroke:#c2185b,color:#000000
+    style K fill:#fce4ec,stroke:#c2185b,color:#000000
 ```
 
 ---
@@ -78,23 +90,34 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    subgraph CI["Continuous Integration"]
-        A[📥 Checkout] --> B[🔐 Docker Login]
-        B --> C[🏗️ Build Image]
+    subgraph CI[" Continuous Integration "]
+        A[Checkout] --> B[Docker Login]
+        B --> C[Build Image]
     end
     
-    subgraph CD["Continuous Deployment"]
-        C --> D[📤 Push to Hub]
-        D --> E[🛑 Stop Old Container]
-        E --> F[🗑️ Remove Old Container]
-        F --> G[🚀 Run New Container]
+    subgraph CD[" Continuous Deployment "]
+        C --> D[Push to Hub]
+        D --> E[Stop Old Container]
+        E --> F[Remove Old Container]
+        F --> G[Run New Container]
     end
     
-    subgraph Notify["Notification"]
+    subgraph Notify[" Notification "]
         G --> H{Success?}
-        H -->|Yes| I[✅ Success Email]
-        H -->|No| J[❌ Failure Email]
+        H -->|Yes| I[Success Email]
+        H -->|No| J[Failure Email]
     end
+
+    style A fill:#bbdefb,stroke:#1976d2,color:#000000
+    style B fill:#bbdefb,stroke:#1976d2,color:#000000
+    style C fill:#bbdefb,stroke:#1976d2,color:#000000
+    style D fill:#c8e6c9,stroke:#388e3c,color:#000000
+    style E fill:#c8e6c9,stroke:#388e3c,color:#000000
+    style F fill:#c8e6c9,stroke:#388e3c,color:#000000
+    style G fill:#c8e6c9,stroke:#388e3c,color:#000000
+    style H fill:#fff9c4,stroke:#f9a825,color:#000000
+    style I fill:#c8e6c9,stroke:#388e3c,color:#000000
+    style J fill:#ffcdd2,stroke:#d32f2f,color:#000000
 ```
 
 ---
@@ -126,26 +149,14 @@ CI-CD-FIRST/
 
 ## 🛠️ Tech Stack
 
-```mermaid
-mindmap
-  root((CI/CD Stack))
-    Source Control
-      GitHub
-      Webhooks
-    CI/CD Engine
-      Jenkins
-      Pipeline as Code
-    Containerization
-      Docker
-      Nginx
-    Registry
-      Docker Hub
-    Cloud
-      AWS EC2
-      Ubuntu
-    Notifications
-      Email Plugin
-```
+| Category | Technologies |
+|----------|-------------|
+| **Source Control** | GitHub, Webhooks |
+| **CI/CD Engine** | Jenkins, Pipeline as Code |
+| **Containerization** | Docker, Nginx |
+| **Registry** | Docker Hub |
+| **Cloud** | AWS EC2, Ubuntu |
+| **Notifications** | Email Plugin |
 
 ---
 
@@ -221,22 +232,29 @@ The application runs on **Nginx** web server inside a Docker container:
 ## 🚀 Deployment Flow
 
 ```mermaid
-stateDiagram-v2
-    [*] --> CodePush: Developer pushes code
-    CodePush --> WebhookTrigger: GitHub sends webhook
-    WebhookTrigger --> Jenkins: Pipeline starts
-    
-    state Jenkins {
-        [*] --> Checkout
-        Checkout --> DockerLogin
-        DockerLogin --> BuildImage
-        BuildImage --> PushImage
-        PushImage --> Deploy
-        Deploy --> [*]
-    }
-    
-    Jenkins --> Running: Container deployed
-    Running --> [*]: Application live on port 8081
+flowchart TD
+    A([Start]) --> B[Developer Pushes Code]
+    B --> C[GitHub Sends Webhook]
+    C --> D[Jenkins Pipeline Starts]
+    D --> E[Checkout Code]
+    E --> F[Docker Login]
+    F --> G[Build Image]
+    G --> H[Push to Docker Hub]
+    H --> I[Deploy Container]
+    I --> J[Application Live on Port 8081]
+    J --> K([End])
+
+    style A fill:#e8f5e9,stroke:#2e7d32,color:#000000
+    style B fill:#e3f2fd,stroke:#1565c0,color:#000000
+    style C fill:#e3f2fd,stroke:#1565c0,color:#000000
+    style D fill:#fff3e0,stroke:#ef6c00,color:#000000
+    style E fill:#fff3e0,stroke:#ef6c00,color:#000000
+    style F fill:#fff3e0,stroke:#ef6c00,color:#000000
+    style G fill:#fff3e0,stroke:#ef6c00,color:#000000
+    style H fill:#e1f5fe,stroke:#0288d1,color:#000000
+    style I fill:#f3e5f5,stroke:#7b1fa2,color:#000000
+    style J fill:#c8e6c9,stroke:#388e3c,color:#000000
+    style K fill:#e8f5e9,stroke:#2e7d32,color:#000000
 ```
 
 ---
