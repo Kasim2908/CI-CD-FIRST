@@ -32,7 +32,13 @@ pipeline {
 
         stage('Build Image') {
             steps {
-                sh "docker build -t $IMAGE_NAME ."
+                sh "docker build -t $IMAGE_NAME:latest ."
+            }
+        }
+
+        stage('Push Image to DockerHub') {
+            steps {
+                sh "docker push $IMAGE_NAME:latest"
             }
         }
 
@@ -41,7 +47,7 @@ pipeline {
                 sh '''
                     docker stop $CONTAINER_NAME || true
                     docker rm $CONTAINER_NAME || true
-                    docker run -d -p 8081:80 --name $CONTAINER_NAME $IMAGE_NAME
+                    docker run -d -p 8081:80 --name $CONTAINER_NAME $IMAGE_NAME:latest
                 '''
             }
         }
