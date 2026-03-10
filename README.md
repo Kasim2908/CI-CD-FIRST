@@ -369,7 +369,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
     post {
         success {
-            emailext(
+            email to (
                 subject: "✅ Jenkins Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
                 <h2>Build Successful 🎉</h2>
@@ -382,7 +382,7 @@ This project is open source and available under the [MIT License](LICENSE).
         }
 
         failure {
-            emailext(
+            email to (
                 subject: "❌ Jenkins Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
                 <h2>Build Failed ❌</h2>
