@@ -1,4 +1,4 @@
-# 🚀 Jenkins CI/CD Pipeline with Docker & GitHub
+# 🚀End-to-End CI/CD Pipeline using Jenkins, Docker, Kubernetes & AWS
 
 <div align="center">
 
